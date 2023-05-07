@@ -1,33 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*
- * This stores the total number of books in each shelf.
- */
+
 int* total_number_of_books;
 
-/*
- * This stores the total number of pages in each book of each shelf.
- * The rows represent the shelves and the columns represent the books.
- */
+
 int** total_number_of_pages;
 
-
-
-
-// ---------------------------------------------------------------------------------------------
-
-//                                    PART OF THE ANSWER 
 int main()
 {
     int total_number_of_shelves;
     scanf("%d", &total_number_of_shelves);
     
-    total_number_of_books = (int*)calloc(total_number_of_shelves, sizeof(int));
-    total_number_of_pages = (int**)calloc(total_number_of_shelves, sizeof(int*));
-    
     int total_number_of_queries;
     scanf("%d", &total_number_of_queries);
+    
+    // Allocating memory 
+    total_number_of_books = (int*) calloc(total_number_of_shelves, sizeof(int));
+    total_number_of_pages = (int**) calloc(total_number_of_shelves, sizeof(int*));
+    for (int i = 0; i < total_number_of_shelves; i++) {
+        total_number_of_pages[i] = (int*) calloc(1100, sizeof(int)); //max=1000
+    }
     
     while (total_number_of_queries--) {
         int type_of_query;
@@ -37,18 +30,12 @@ int main()
             int x, y;
             scanf("%d %d", &x, &y);
             
-            // Increment
-            total_number_of_books[x]++;
             
-            // Allocating 
-            total_number_of_pages[x] = (int*)realloc(total_number_of_pages[x], total_number_of_books[x]*sizeof(int));
-            
-            // Insertion
-            total_number_of_pages[x][total_number_of_books[x]-1] = y;
-   // -----------------------------------------------------------------------------------------------------------------        
-  
-  
-  
+            if (total_number_of_books[x] < 1100) { 
+                // Appending at the end
+                total_number_of_pages[x][total_number_of_books[x]] = y;
+                total_number_of_books[x]++;
+            }
         } else if (type_of_query == 2) {
             int x, y;
             scanf("%d %d", &x, &y);
@@ -76,3 +63,6 @@ int main()
     
     return 0;
 }
+
+
+// Sushant
